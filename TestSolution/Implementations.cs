@@ -22,7 +22,8 @@ namespace TestSolution
 
                 if (line != null)
                 {
-                    return line.Trim().ToLower();
+                    //Returns name as is
+                    return line;
                 }
 
 
@@ -44,6 +45,7 @@ namespace TestSolution
 
                 if (line != null)
                 {
+                    //Returns text trimmed and lower
                     return line.Trim().ToLower();
                 }
 
@@ -54,14 +56,20 @@ namespace TestSolution
         }
     }
 
+    public class NameLinePairValue
+    {
+        public List<int> Lines { get; } = new List<int>();
+        public string OriginalName { get; set; }
+    }
+
 
     public class ComparisonProcessor
     {
-        public Dictionary<string, List<int>> NameLinePairs { get; } = new Dictionary<string, List<int>>();
+        public Dictionary<string, NameLinePairValue> NameLinePairs { get; } = new Dictionary<string, NameLinePairValue>();
 
-        public INamesProcessor NamesProcessor { get; }
+        private INamesProcessor NamesProcessor { get; }
 
-        public ITextProcessor TextProcessor { get; }
+        private ITextProcessor TextProcessor { get; }
 
         public ComparisonProcessor(INamesProcessor namesProcessor, ITextProcessor textProcessor)
         {
@@ -87,7 +95,7 @@ namespace TestSolution
 
                     if (name != null && !this.NameLinePairs.ContainsKey(name)) //name could be repeated
                     {
-                        this.NameLinePairs.Add(name, new List<int>());
+                        this.NameLinePairs.Add(name.Trim().ToLower(), new NameLinePairValue() { OriginalName = name });
                     }
 
                 } while (name != null);
@@ -105,7 +113,7 @@ namespace TestSolution
 
                     if (text != null && this.NameLinePairs.ContainsKey(text))
                     {
-                        this.NameLinePairs[text].Add(i);
+                        this.NameLinePairs[text].Lines.Add(i);
                     }
 
                     i++;

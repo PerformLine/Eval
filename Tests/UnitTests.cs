@@ -34,25 +34,7 @@ namespace Tests
                 Assert.NotNull(text);
             }
         }
-
-        [Theory]
-        [InlineData("../../../../TestSolution/Data/names.txt")]
-        public void INamesProcessorCheckNormalization(string path)
-        {
-            INamesProcessor namesProcessor = new Names();
-
-            using (StreamReader sr = new StreamReader(path))
-            {
-                string name = namesProcessor.GetName(sr);
-
-                foreach(char c in name)
-                {
-                    Assert.True(char.IsLower(c));
-                }
-            }
-
-        }
-
+        
         [Theory]
         [InlineData("../../../../TestSolution/Data/names.txt")]
         public void ITextProcessorCheckNormalization(string path)
@@ -79,7 +61,7 @@ namespace Tests
             ComparisonProcessor processor = new ComparisonProcessor(namesProcessor, textProcessor);
             processor.Compare(namesPath, listPath);
 
-            List<int> lines = processor.NameLinePairs[knownName.Trim().ToLower()];
+            List<int> lines = processor.NameLinePairs[knownName.Trim().ToLower()].Lines;
 
             Assert.Equal(knownLines.Length, lines.Count);
 

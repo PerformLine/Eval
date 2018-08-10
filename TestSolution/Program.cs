@@ -46,12 +46,12 @@ namespace TestSolution
             Console.ReadLine();
         }
 
-        static void Print(Dictionary<string, List<int>> nameLinePairs)
+        static void Print(Dictionary<string, NameLinePairValue> nameLinePairs)
         {
             //Print the solution
             foreach (string s in nameLinePairs.Keys)
             {
-                List<int> lines = nameLinePairs[s];
+                List<int> lines = nameLinePairs[s].Lines;
 
                 var list = "";
 
@@ -61,7 +61,7 @@ namespace TestSolution
                 if (list.Length > 0)
                     list = list.Substring(0, list.Length - 2);
 
-                Console.WriteLine(s + ":" + list);
+                Console.WriteLine(nameLinePairs[s].OriginalName + ": " + list);
             }
         }
     }
